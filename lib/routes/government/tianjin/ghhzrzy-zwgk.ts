@@ -10,14 +10,13 @@ const config = {
     jjzcwj: {
         link: '/zwgk_143/zcwj/jjzcwj/',
         title: '经济政策文件',
-    },
-    // 可根据实际需要添加其他分类
+    }
 };
 
 export const route: Route = {
-    path: '/tianjin/ghhzrzy/zwgk/:caty',
+    path: '/government/tianjin/ghhzrzy/zwgk/:caty',  // 关键：包含government层级
     categories: ['government'],
-    example: '/gov/tianjin/ghhzrzy/zwgk/jjzcwj',
+    example: '/government/tianjin/ghhzrzy/zwgk/jjzcwj',
     parameters: { caty: '信息类别，目前支持 jjzcwj（经济政策文件）' },
     features: {
         requireConfig: false,
@@ -30,14 +29,14 @@ export const route: Route = {
     radar: [
         {
             source: ['ghhzrzy.tj.gov.cn/zwgk_143/zcwj/jjzcwj/'],
-            target: '/tianjin/ghhzrzy/zwgk/jjzcwj',
+            target: '/government/tianjin/ghhzrzy/zwgk/jjzcwj',
         },
     ],
     name: '天津市规划和自然资源局 - 政务公开',
-    maintainers: ['your-github-username'],
+    maintainers: ['your-name'],
     handler,
     url: 'ghhzrzy.tj.gov.cn/zwgk_143/zcwj/jjzcwj/',
-    description: '天津市规划和自然资源局政务公开信息订阅，目前支持经济政策文件分类',
+    description: '天津市规划和自然资源局政务公开信息订阅',
 };
 
 async function handler(ctx) {
@@ -45,14 +44,17 @@ async function handler(ctx) {
     const cfg = config[caty];
     
     if (!cfg) {
-        throw new Error('无效的分类，请参考文档使用正确的分类参数');
+        throw new Error('无效的分类，请使用 jjzcwj');
     }
 
     const currentUrl = new URL(cfg.link, rootUrl).href;
-    const response = await got(currentUrl);
+    const response = await got(currentUrl, {
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        }
+    });
     const $ = load(response.data);
 
-    // 提取列表信息
     const list = $('.article-list li')
         .toArray()
         .map((item) => {
@@ -67,17 +69,18 @@ async function handler(ctx) {
             };
         });
 
-    // 获取详情页内容
     const items = await Promise.all(
         list.map((item) =>
             cache.tryGet(item.link, async () => {
-                const detailResponse = await got(item.link);
+                const detailResponse = await got(item.link, {
+                    headers: {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                    }
+                });
                 const $detail = load(detailResponse.data);
                 
-                // 提取正文内容
                 item.description = $detail('.article-content').html() || '暂无内容';
                 
-                // 提取附件信息（如果有）
                 const attachments = $detail('.attachment a')
                     .toArray()
                     .map((attach) => {
