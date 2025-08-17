@@ -16,9 +16,9 @@ const categoryMap = {
 };
 
 export const route: Route = {
-    path: '/tianjin/ghzrzy/zcfg/:category?',
+    path: '/tianjin/zcfg/:category?',
     categories: ['government'],
-    example: '/rsshub/tianjin/ghzrzy/zcfg/ghcg',
+    example: '/rsshub/tianjin/zcfg/ghcg',
     parameters: {
         category: {
             name: '政策分类',
@@ -40,7 +40,7 @@ export const route: Route = {
             source: ['ghzrzy.tj.gov.cn/ywpd/:category*/'],
             target: (params) => {
                 const category = params.category || 'cjxx_1';
-                return `/tianjin/ghzrzy/zcfg/${category}`;
+                return `/tianjin/zcfg/${category}`;
             }
         }
     ],
