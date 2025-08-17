@@ -15,7 +15,7 @@ const config = {
 
 export const route: Route = {
     // 路径必须与文件存放位置对应：lib/routes/government/tianjin → 路径以/government/tianjin开头
-    path: '/government/tianjin/ghhzrzy/zwgk/:caty',
+    path: '/tianjin/ghhzrzy/:caty',
     categories: ['government'],
     example: '/government/tianjin/ghhzrzy/zwgk/jjzcwj',
     parameters: { caty: '信息类别，目前支持 jjzcwj' },
@@ -27,10 +27,11 @@ export const route: Route = {
         supportPodcast: false,
         supportScihub: false,
     },
-    radar: [{
-        source: ['ghhzrzy.tj.gov.cn/zwgk_143/zcwj/jjzcwj/'],
-        target: '/government/tianjin/ghhzrzy/zwgk/jjzcwj',
-    }],
+    example: '/tianjin/ghhzrzy/zwgk/jjzcwj',
+radar: [{
+    source: ['ghhzrzy.tj.gov.cn/zwgk_143/zcwj/jjzcwj/'],
+    target: '/tianjin/ghhzrzy/zwgk/jjzcwj',
+}],
     name: '天津市规划和自然资源局 - 政务公开',
     maintainers: ['你的GitHub用户名'],
     handler,
