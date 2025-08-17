@@ -8,17 +8,18 @@ import cache from '@/utils/cache';
 const rootUrl = 'https://ghhzrzy.tj.gov.cn';
 const config = {
     jjzcwj: {
-        link: '/zwgk_143/zcwj/jjzcwj/',
+        link: '/zwgk_143/zcwj/jjzcwj/',  // 原网站的路径包含 zwgk_143，需保留
         title: '经济政策文件',
     }
 };
 
 export const route: Route = {
-    // 路径必须与文件存放位置对应：lib/routes/government/tianjin → 路径以/government/tianjin开头
-    path: '/tianjin/ghhzrzy/:caty',
+    // 路径包含 zwgk，与访问路径匹配（关键修正）
+    path: '/tianjin/ghhzrzy/zwgk/:caty',
     categories: ['government'],
-    example: '/government/tianjin/ghhzrzy/zwgk/jjzcwj',
-    parameters: { caty: '信息类别，目前支持 jjzcwj' },
+    // 示例路径与路由 path 一致（修正重复 example 问题）
+    example: '/tianjin/ghhzrzy/zwgk/jjzcwj',
+    parameters: { caty: '信息类别，目前支持 jjzcwj（经济政策文件）' },
     features: {
         requireConfig: false,
         requirePuppeteer: false,
@@ -27,13 +28,13 @@ export const route: Route = {
         supportPodcast: false,
         supportScihub: false,
     },
-    example: '/tianjin/ghhzrzy/zwgk/jjzcwj',
-radar: [{
-    source: ['ghhzrzy.tj.gov.cn/zwgk_143/zcwj/jjzcwj/'],
-    target: '/tianjin/ghhzrzy/zwgk/jjzcwj',
-}],
+    // radar.target 与路由 path 匹配（关键修正）
+    radar: [{
+        source: ['ghhzrzy.tj.gov.cn/zwgk_143/zcwj/jjzcwj/'],
+        target: '/tianjin/ghhzrzy/zwgk/jjzcwj',
+    }],
     name: '天津市规划和自然资源局 - 政务公开',
-    maintainers: ['你的GitHub用户名'],
+    maintainers: ['你的GitHub用户名'],  // 替换为你的用户名
     handler,
     url: 'ghhzrzy.tj.gov.cn/zwgk_143/zcwj/jjzcwj/',
     description: '天津市规划和自然资源局经济政策文件订阅',
