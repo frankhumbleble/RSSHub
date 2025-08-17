@@ -1,25 +1,34 @@
-// lib/routes/tj-ghzrzy/documents.ts
+// lib/routes/gov/tj/ghzrzy/index.ts
 import { Route } from '@/types';
 import ofetch from '@/utils/ofetch';
 import { load } from 'cheerio';
 import { parseDate } from '@/utils/parse-date';
 
 const baseUrl = 'http://ghzrzy.tj.gov.cn';
+export const route: Route = {
+    path: 'tj/ghzrzy:channelId',
+    categories: ['government'],
+    example: '/gov/tj/ghhzrzy/:channelId',
+    parameters: {
+        channelId: '局级文件',
+    },
+
 
 export const route: Route = {
-    path: '/tj-ghzrzy/documents',
+    // 关键修改：路径改为根路径
+    path: 'gov/tj/ghzrzy',
     categories: ['government'],
-    example: '/rsshub/tj-ghzrzy/documents',
+    example: '/rsshub/gov/tj/ghzrzy',
     parameters: {},
     features: {
         requireConfig: false,
         requirePuppeteer: false,
-        antiCrawler: true, // 政府网站可能有反爬
+        antiCrawler: true,
     },
     radar: [
         {
-            source: ['ghzrzy.tj.gov.cn/zwgk_143/xxgk/'],
-            target: '/tj-ghzrzy/documents',
+            source: ['ghzrzy.tj.gov.cn'],
+            target: '/tj/ghhzrzy', // 修改目标路径
         },
     ],
     name: '局级文件',
