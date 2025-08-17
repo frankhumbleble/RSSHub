@@ -16,15 +16,15 @@ const categoryMap = {
 };
 
 export const route: Route = {
-    path: '/tianjin/:category?',
+    path: '/gov/tj/:category?',
     categories: ['government'],
-    example: '/rsshub/tianjin/zcfg/ghcg',
+    example: '/gov/tianjin/zwgk_143/',
     parameters: {
         category: {
-            name: '政策分类',
+            name: '政务公开',
             description: '可从URL路径获取，默认为最新政策',
             options: Object.keys(categoryMap),
-            default: 'cjxx_1'
+            default: 'zwgk_143'
         }
     },
     features: {
@@ -37,9 +37,9 @@ export const route: Route = {
     },
     radar: [
         {
-            source: ['ghzrzy.tj.gov.cn/ywpd/:category*/'],
+            source: ['ghzrzy.tj.gov.cn/:category*/'],
             target: (params) => {
-                const category = params.category || 'cjxx_1';
+                const category = params.category || 'zwgk_143';
                 return `/tianjin/${category}`;
             }
         }
@@ -47,7 +47,7 @@ export const route: Route = {
     name: '政策法规',
     maintainers: ['RSSHub-Bot'],
     handler: async (ctx) => {
-        const { category = 'cjxx_1' } = ctx.req.param();
+        const { category = 'zwgk_143' } = ctx.req.param();
         const baseUrl = 'http://ghzrzy.tj.gov.cn';
         const listUrl = `${baseUrl}/${category}/`;
         
