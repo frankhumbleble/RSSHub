@@ -16,7 +16,7 @@ const categoryMap = {
 };
 
 export const route: Route = {
-    path: '/tianjin/zcfg/:category?',
+    path: '/tianjin/:category?',
     categories: ['government'],
     example: '/rsshub/tianjin/zcfg/ghcg',
     parameters: {
@@ -40,7 +40,7 @@ export const route: Route = {
             source: ['ghzrzy.tj.gov.cn/ywpd/:category*/'],
             target: (params) => {
                 const category = params.category || 'cjxx_1';
-                return `/tianjin/zcfg/${category}`;
+                return `/tianjin/${category}`;
             }
         }
     ],
@@ -49,7 +49,7 @@ export const route: Route = {
     handler: async (ctx) => {
         const { category = 'cjxx_1' } = ctx.req.param();
         const baseUrl = 'http://ghzrzy.tj.gov.cn';
-        const listUrl = `${baseUrl}/ywpd/${category}/`;
+        const listUrl = `${baseUrl}/${category}/`;
         
         // 步骤1: 获取政策列表页
         const response = await ofetch(listUrl, {
